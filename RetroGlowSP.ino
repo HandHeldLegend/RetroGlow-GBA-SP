@@ -8,6 +8,7 @@
 #define lPin      PCINT2
 #define rPin      PCINT1
 #define ledPin    4
+#define brightnessPin 3
 
 // Save check variable to see if save data exists
 #define SAVE_CHECK  35
@@ -248,10 +249,7 @@ void setup() {
   pinMode(selPin, INPUT);
   pinMode(lPin, INPUT);
   pinMode(rPin, INPUT);
-  pinMode(3, OUTPUT);
-  digitalWrite(3, LOW);
-
-  
+  pinMode(brightnessPin, INPUT);
 
   if (digitalRead(selPin) == LOW && digitalRead(lPin) == LOW)
   {
@@ -276,6 +274,9 @@ void setup() {
       memcpy(colorPreset, upref.ledPreset, sizeof(colorPreset));
     }
   }
+
+  // Set this ahead of time.
+  upref.saved = SAVE_CHECK;
 
   // Initialize fastLED library. GRB is neo pixel 2020's typically but not always. Check your specifications.
   FastLED.addLeds<NEOPIXEL, ledPin>(leds, LED_COUNT).setCorrection(CRGB(255, 125, 255));
@@ -458,6 +459,8 @@ void buttonFunction(byte functionType, int parameter)
   {
     brightness = adjustValue(brightness, MAX_BRIGHTNESS, parameter, false);
     FastLED.setBrightness(brightness);
+    upref.brightness = brightness;
+    EEPROM.put(0,upref);
     FastLED.show();
   }
   else if (functionType == SEDITMODE_CHANGE)
@@ -748,6 +751,17 @@ void loop() {
   if (colorState != COLOR_IDLE)
   {
     colorTick();
+  }
+
+  // Handle brightness control stuff
+  if (editMode == EDIT_IDLE && !digitalRead(selPin) && !digitalRead(lPin))
+  {
+    pinMode(brightnessPin, OUTPUT);
+    digitalWrite(brightnessPin, LOW);
+  }
+  else
+  {
+    pinMode(brightnessPin, INPUT);
   }
 
 }
