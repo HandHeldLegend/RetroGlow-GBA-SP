@@ -1,0 +1,17 @@
+.vscode/
+
+bin/core/
+
+bin/libraries/
+
+bin/preproc/
+
+bin/sketch/
+
+bin/build.options.json
+
+bin/includes.cache
+
+bin/RetroGlowSP.ino.eep
+
+bin/RetroGlowSP.ino.elf

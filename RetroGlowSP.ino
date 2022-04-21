@@ -33,7 +33,7 @@ bool buttonSet = false;
 #define COLORMODE_RGB   1
 #define COLORMODE_PARTY 2
 #define COLORMODE_SOLID 3
-byte colorMode = 1;
+byte colorMode = 0;
 // Set to false to initiate colorInit
 bool colorModeSet = false;
 
@@ -67,7 +67,7 @@ byte scaledRCV(byte saturation)
 // rainbowColor is used whenever we need a chsv value (color in Hue, Saturation, Value/Brightness format)
 byte rainbowTime = 16; // How much rainbow value increases each cycle. (Higher is faster, lower is slower).
 CHSV rainbowColor = CHSV(0, 255, scaledRCV(255));
-byte brightness = 100;
+byte brightness = 80;
 
 // Primary 'leds' variable which contains all the colors in an array we need to set each LED
 CRGB leds[LED_COUNT] = {CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black};
@@ -253,7 +253,7 @@ void setup() {
 
   if (digitalRead(selPin) == LOW && digitalRead(lPin) == LOW)
   {
-    upref = {};
+    upref.saved = 0xFF;
     EEPROM.put(0,upref);
     delay(100);
   }
@@ -274,9 +274,6 @@ void setup() {
       memcpy(colorPreset, upref.ledPreset, sizeof(colorPreset));
     }
   }
-
-  // Set this ahead of time.
-  upref.saved = SAVE_CHECK;
 
   // Initialize fastLED library. GRB is neo pixel 2020's typically but not always. Check your specifications.
   FastLED.addLeds<NEOPIXEL, ledPin>(leds, LED_COUNT).setCorrection(CRGB(255, 125, 255));
@@ -459,8 +456,7 @@ void buttonFunction(byte functionType, int parameter)
   {
     brightness = adjustValue(brightness, MAX_BRIGHTNESS, parameter, false);
     FastLED.setBrightness(brightness);
-    upref.brightness = brightness;
-    EEPROM.put(0,upref);
+    buttonFunction(SAVE_SETTINGS, 0);
     FastLED.show();
   }
   else if (functionType == SEDITMODE_CHANGE)
@@ -493,12 +489,16 @@ void buttonFunction(byte functionType, int parameter)
     memcpy(upref.ledPreset, colorPreset, sizeof(colorPreset));
 
     EEPROM.put(0,upref);
-    delay(100);
-    editMode = EDIT_IDLE;
-    seditMode = SED_ZERO;
-    
-    switchIndicator(CRGB::Blue);
-    colorInit();
+
+    if (parameter)
+    {
+      delay(100);
+      editMode = EDIT_IDLE;
+      seditMode = SED_ZERO;
+      
+      switchIndicator(CRGB::Blue);
+      colorInit();
+    }
     
   }
   else if (functionType == SPEED_CHANGE)
@@ -686,7 +686,7 @@ void uiTree()
       if (buttonState == SEL_ONLY) buttonFunction(SEDITMODE_CHANGE, 1);
 
       // CMSET GLOBAL SAVE FUNCTION
-      if (buttonState == SEL_R) buttonFunction(SAVE_SETTINGS, 0);
+      if (buttonState == SEL_R) buttonFunction(SAVE_SETTINGS, 1);
 
       // CMSET USER PRESET EDIT MODE
       if (colorMode == COLORMODE_USER)
