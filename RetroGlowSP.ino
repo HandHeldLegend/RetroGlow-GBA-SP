@@ -7,11 +7,11 @@
 #define selPin    PCINT0
 #define lPin      PCINT2
 #define rPin      PCINT1
-#define ledPin    4
-#define brightnessPin 3
+#define ledPin    PB4
+#define brightnessPin PB3
 
 // Save check variable to see if save data exists
-#define SAVE_CHECK  35
+#define SAVE_CHECK  34
 
 // Led Stuff
 // Max brightness to prevent power issues

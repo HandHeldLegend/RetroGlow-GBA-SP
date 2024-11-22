@@ -1,0 +1,8 @@
+"Reference","MPN","Value","Datasheet","Footprint","Qty","DNP"
+"C1","C0805B104K500NT","0.1uF","~","Capacitor_SMD:C_0805_2012Metric","1",""
+"D1","BAS16VY,115","BAS16VY,115","","Package_TO_SOT_SMD:SOT-363_SC-70-6","1",""
+"L1,L2,L3,L4,L5,L6,L7,L8,L9","SK6805-EC-10","SK6805-EC-10","https://cdn-shop.adafruit.com/product-files/5849/SK6805-EC10-000_REV.01_EN.pdf","hhl:SK6805-EC-10","9",""
+"R1,R2,R3,R4,R6","0402WGF1001TCE","1k","~","Resistor_SMD:R_0402_1005Metric","5",""
+"R5","0402WGF3300TCE","330","~","Resistor_SMD:R_0402_1005Metric","1",""
+"TP1,TP2,TP3,TP4,TP5,TP6","","TestPoint","~","TestPoint:TestPoint_Pad_D1.0mm","6","DNP"
+"U1","ATtiny85V-10M","ATtiny85V-10M","http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf","Package_DFN_QFN:QFN-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm","1",""

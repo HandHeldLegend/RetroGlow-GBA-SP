@@ -1,6 +1,6 @@
 // USER PREFERENCES STRUCTURE
 // ----------------
-#define GROUP_COUNT  6
+#define GROUP_COUNT  7
 
 typedef struct 
 {

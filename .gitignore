@@ -15,3 +15,11 @@ bin/includes.cache
 bin/RetroGlowSP.ino.eep
 
 bin/RetroGlowSP.ino.elf
+
+HW/retroglow_sp-backups/
+
+HW/fp-info-cache
+
+HW/fp-lib-table
+
+HW/sym-lib-table
